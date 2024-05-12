@@ -1,5 +1,9 @@
 package com.bharath.todolistapplication.ui.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -13,7 +17,17 @@ fun MyNavHost(navHostController: NavHostController) {
         composable(Screens.Home.route) {
             HomeScreen(navHostController = navHostController)
         }
-        composable(Screens.AddNote.route + "/{Id}") {
+        composable(Screens.AddNote.route + "/{Id}", enterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Up,
+            ) + fadeIn()
+        }, exitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Down,
+
+            ) + fadeOut()
+        }
+        ) {
             AddTodoScreen(navHostController = navHostController)
         }
     }

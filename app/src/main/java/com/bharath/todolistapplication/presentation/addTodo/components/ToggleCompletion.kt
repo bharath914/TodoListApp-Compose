@@ -9,8 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
+/**
+ * Button to toggle completion of a task.
+ */
 @Composable
-fun SaveButton(modifier: Modifier = Modifier, buttonText: String, onClick: () -> Unit) {
+fun ToggleCompletion(modifier: Modifier = Modifier, buttonText: String, onClick: () -> Unit) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,

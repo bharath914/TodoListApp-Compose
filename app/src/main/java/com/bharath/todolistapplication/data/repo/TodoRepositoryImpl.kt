@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * This class implements the TodoRepository interface.
+ * This method is knows as delegating.
+ */
 class TodoRepositoryImpl @Inject constructor(
     private val dao: TodoDao,
 ) : TodoRepository {

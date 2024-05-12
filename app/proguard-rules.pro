@@ -11,7 +11,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-
+-dontwarn org.slf4j.impl.StaticLoggerBinder*
+-keep class com.bharath.todolistapplication.data.**{*;}
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable

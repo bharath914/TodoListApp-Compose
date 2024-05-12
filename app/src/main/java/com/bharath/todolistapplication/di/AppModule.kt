@@ -12,16 +12,26 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * @property AppModule provides us the required classes for the application
+ */
 @InstallIn(SingletonComponent::class)
 @Module
 object AppModule {
 
+    /*
+     * The method provides the TodoDatabase
+     */
 
     @Provides
     @Singleton
     fun provideRoomDatabase(application: Application): TodoDatabase {
         return Room.databaseBuilder(application, TodoDatabase::class.java, "todo_db").build()
     }
+
+    /**
+     * The method provides the TodoRepository
+     */
 
 
     @Provides

@@ -16,6 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+/**
+ * Top bar for the Add todos Screen
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddScreenTopBar(

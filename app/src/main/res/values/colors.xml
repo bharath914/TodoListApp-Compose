@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="textClr">#171616</color>
+    <color name="bodyColor">#3C3737</color>
+
+
+    <color name="logo_text_color">#FF000000</color>
+    <color name="background">#FFFFFF</color>
+    <color name="colorAccent">#FF000000</color>
 </resources>

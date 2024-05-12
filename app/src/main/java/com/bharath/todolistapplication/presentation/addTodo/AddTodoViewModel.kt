@@ -18,28 +18,41 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ *@property  AddTodoViewModel => Viewmodel to handle UI Tasks of AddTodo Screen
+ */
 @HiltViewModel
 class AddTodoViewModel @Inject constructor(
     private val getTodoById: GetTodoById,
     savedStateHandle: SavedStateHandle,
-    private val upsertTodo: UpsertTodo,
-    private val deleteTodo: DeleteTodo,
+    private val upsertTodo: UpsertTodo
 ) : ViewModel() {
 
+    /**
+     * _currentTodo holds the state of the current todoEntity (title, description, isCompleted).
+     */
 
     private val _currentTodo = MutableStateFlow(TodoEntity())
     val currentTodo = _currentTodo.asStateFlow()
+
 
     private val todoId = MutableStateFlow(0L)
 
 
     init {
+        /**
+         * Get the passed argument from the HomeScreen
+         */
         savedStateHandle.get<String>("Id")?.let {
             todoId.value = it.toLong()
         }
     }
 
     fun loadTodo() {
+        /**
+         * Loads the data from the Database
+         * If it's new note then nothing happens in this function. as we use filterNotNull() function here.
+         */
         viewModelScope.launch {
             getTodoById(todoId.value).filterNotNull().first()?.let { entity ->
                 _currentTodo.update { entity }
@@ -47,6 +60,10 @@ class AddTodoViewModel @Inject constructor(
         }
     }
 
+    /**
+     * onEvent() public function to be exposed to UI Screens to talk with the viewmodel
+     * This will reduce the amount of functions in the viewmodel and logic in UI.
+     */
     fun onEvent(events: AddTodoEvents) {
         when (events) {
             is AddTodoEvents.OnBack -> {
@@ -81,7 +98,7 @@ class AddTodoViewModel @Inject constructor(
         }
     }
 
-    fun saveTodo() {
+    private fun saveTodo() {
         viewModelScope.launch(Dispatchers.IO) {
             upsertTodo(currentTodo.value)
         }

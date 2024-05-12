@@ -9,6 +9,7 @@ import com.bharath.todolistapplication.domain.usecases.GetAllTodos
 import com.bharath.todolistapplication.domain.usecases.UpsertTodo
 import com.bharath.todolistapplication.presentation.home.events.HomeEvents
 import com.bharath.todolistapplication.ui.utils.SnackBarData
+import com.bharath.todolistapplication.ui.utils.TodoEntityWithDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +27,7 @@ class HomeViewModel @Inject constructor(
 
     ) : ViewModel() {
 
-    private val _todosList = MutableStateFlow(emptyList<TodoEntity>())
+    private val _todosList = MutableStateFlow(emptyMap<String, List<TodoEntityWithDate>>())
     val todosList = _todosList.asStateFlow()
 
     private val _snackBarData = MutableStateFlow(SnackBarData())
@@ -37,7 +38,8 @@ class HomeViewModel @Inject constructor(
     fun getTodos() {
         viewModelScope.launch(IO) {
             getAllTodos().collectLatest { list ->
-                _todosList.update { list }
+                val group = list.groupBy { it.day }
+                _todosList.update { group }
             }
         }
     }
@@ -51,6 +53,9 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeEvents.OnDelete -> {
+                _snackBarData.update {
+                    SnackBarData()
+                }
                 viewModelScope.launch(IO) {
                     deleteTodo(event.todoEntity)
                 }.invokeOnCompletion {
